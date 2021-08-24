@@ -1,1 +1,4 @@
 numer/__pycache__
+dist/
+build/
+numer.egg-info/
