@@ -1,6 +1,6 @@
 import ctypes as c
 
-_lib = c.CDLL("lib.so")
+_lib = c.CDLL("Cfiles/lib.so")
 
 _lib.fcos.argtypes = (c.c_double, c.c_char)
 _lib.fcos.restype = c.c_double
