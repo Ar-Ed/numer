@@ -25,29 +25,18 @@ double ftan(double angle, char radian)
     return tan(angle);
 }
 
-double fatan(double angle, char radian)
+double fatan(double angle)
 {
-    if (radian)
-        return atan(angle);
-
-    angle *= M_PI / 180;
     return atan(angle);
 }
 
-double fasin(double angle, char radian)
+double fasin(double angle)
 {
-    if (radian)
-        return asin(angle);
-
-    angle *= M_PI / 180;
     return asin(angle);
 }
-double facos(double angle, char radian)
-{
-    if (radian)
-        return acos(angle);
 
-    angle *= M_PI / 180;
+double facos(double angle)
+{
     return acos(angle);
 }
 

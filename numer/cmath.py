@@ -1,7 +1,7 @@
 import ctypes as c
 import os
 
-_lib = c.CDLL(os.path.abspath("lib.dylib"))
+_lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dylib"))
 
 _lib.fcos.argtypes = (c.c_double, c.c_char)
 _lib.fcos.restype = c.c_double
@@ -12,13 +12,13 @@ _lib.fsin.restype = c.c_double
 _lib.ftan.argtypes = (c.c_double, c.c_char)
 _lib.ftan.restype = c.c_double
 
-_lib.fatan.argtypes = (c.c_double, c.c_char)
+_lib.fatan.argtypes = (c.c_double)
 _lib.fatan.restype = c.c_double
 
-_lib.facos.argtypes = (c.c_double, c.c_char)
+_lib.facos.argtypes = (c.c_double)
 _lib.facos.restype = c.c_double
 
-_lib.fasin.argtypes = (c.c_double, c.c_char)
+_lib.fasin.argtypes = (c.c_double)
 _lib.fasin.restype = c.c_double
 
 _lib.fcosh.argtypes = (c.c_double, c.c_char)
@@ -61,67 +61,67 @@ _lib.ffmod.restype = c.c_double
 def cos(angle: float, radian: bool = True) -> float:
     '''Returns the cosine of the angle'''
 
-    if not ((isinstance(angle, float) or isinstance(angle, int)) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Angle has to be a float or an int, radian has to be an boolean")
 
     return _lib.fcos(angle, radian)
 
 
 def sin(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the sine of the angle'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Angle has to be a float or an int, radian has to be an boolean")
 
     return _lib.fsin(angle, radian)
 
 
 def tan(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the tangent of the angle'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Angle has to be a float or an int, radian has to be an boolean")
 
     return _lib.ftan(angle, radian)
 
 
-def acos(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+def acos(value: float) -> float:
+    '''Returns the arccosine of the value'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not isinstance(value, (float, int)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Value has to be a float or an int")
 
-    return _lib.facos(angle, radian)
+    return _lib.facos(value)
 
 
-def asin(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+def asin(value: float) -> float:
+    '''Returns the arcsine of the value'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(value, float)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Value has to be a float or an int")
 
-    return _lib.fasin(angle, radian)
+    return _lib.fasin(value)
 
 
-def atan(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+def atan(value: float) -> float:
+    '''Returns the arctangent of the value'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(value, float)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "Value has to be a float or an int")
 
-    return _lib.fatan(angle, radian)
+    return _lib.fatan(value)
 
 
 def cosh(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the hyperbolic cosine of the angle'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
@@ -129,9 +129,9 @@ def cosh(angle: float, radian: bool = True) -> float:
 
 
 def sinh(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the hyperbolic sine of the angle'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
@@ -139,95 +139,103 @@ def sinh(angle: float, radian: bool = True) -> float:
 
 
 def tanh(angle: float, radian: bool = True) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the hyperbolic tangent of the angle'''
 
-    if not (isinstance(angle, float) and isinstance(radian, bool)):
+    if not (isinstance(angle, (float, int)) and isinstance(radian, bool)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
     return _lib.ftan(angle, radian)
 
+
 def pow(base: float, exponent: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns base^exponent'''
 
-    if not (isinstance(base, float) and isinstance(exponent, float)):
+    if not (isinstance(base, (float, int)) and isinstance(exponent, (float, int))):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "base and exponent has to be a float or an int")
 
-    return _lib.pow(base, exponent)
+    return _lib.fpow(base, exponent)
+
 
 def log10(number: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the base 10 log of the number'''
 
-    if not (isinstance(number, float) and number > 0):
+    if not (isinstance(number, (float, int)) and number > 0):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
-    return _lib.log10(number)
+    return _lib.flog10(number)
+
 
 def ceil(number: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Rounds the number up and returns the rounded value'''
 
-    if not (isinstance(number, float)):
+    if not (isinstance(number, (float,int))):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
     return _lib.fceil(number)
 
-def ln(number: float) -> float:
-    '''Returns the cosine of the angle'''
 
-    if not (isinstance(number, float) and number > 0):
+def ln(number: float) -> float:
+    '''Returns the natural logarithm of the number'''
+
+    if not (isinstance(number, (float,int)) and number > 0):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
-    return _lib.log(number)
+    return _lib.flog(number)
+
 
 def exp(number: float) -> float:
     '''Returns the cosine of the angle'''
 
-    if not (isinstance(number, float)):
+    if not isinstance(number, (float,int)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
     return _lib.fexp(number)
 
+
 def floor(number: float) -> float:
     '''Returns the cosine of the angle'''
 
-    if not (isinstance(number, float)):
+    if not isinstance(number, (float,int)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
     return _lib.ffloor(number)
 
-def abs(number: float) -> float:
-    '''Returns the cosine of the angle'''
 
-    if not isinstance(number, float):
+def abs(number: float) -> float:
+    '''Returns the absolute value of the number'''
+
+    if not isinstance(number, (float,int)):
         raise ValueError(
             "Angle has to be a float, radian has to be an boolean")
 
     return _lib.ffabs(number)
 
+
 def sqrt(number: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the square root of the number'''
 
     if not (isinstance(number, float) and number > 0):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
-    return _lib.sqrt(number)
+    return _lib.fsqrt(number)
+
 
 def mod(num1: float, num2: float) -> float:
-    '''Returns the cosine of the angle'''
-    print('fdfds')
+    '''Returns num1 modulo num2'''
+
     if not (isinstance(num1, float) and isinstance(num2, float)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "num1 and num2 have to be floats or ints")
 
     return _lib.fmod(num1, num2)
-
 
 
 if __name__ == "__main__":
