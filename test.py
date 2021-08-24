@@ -1,3 +1,3 @@
-from numer.cfunc import func
+from numer.cfunc import cos
 
-func()
+print(cos(30, radian=False))
