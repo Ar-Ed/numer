@@ -5,8 +5,7 @@ import sys
 
 if sys.platform.startswith('darwin'):
     _lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dylib"))
-
-if sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+elif sys.platform.startswith('cygwin') or sys.platform.startswith('win32'):
     _lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dll"))
 
 _lib.fcos.argtypes = (c.c_double, c.c_char)

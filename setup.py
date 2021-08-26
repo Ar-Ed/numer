@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.141'
+VERSION = '0.0.16'
 DESCRIPTION = 'Example implementation of gmp and C math.h functions'
 LONG_DESCRIPTION = 'Simple arithmetic functions from C and gmp'
 

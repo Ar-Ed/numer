@@ -6,8 +6,7 @@ import sys
 
 if sys.platform.startswith('darwin'):
     _ = c.CDLL(os.path.join(os.path.dirname(__file__), "gmp.dylib"))
-
-if sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+elif sys.platform.startswith('cygwin') or sys.platform.startswith('win32'):
     _ = c.CDLL(os.path.join(os.path.dirname(__file__), "gmp.dll"))
 
 
