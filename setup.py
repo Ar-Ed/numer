@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = '0.0.12'
+VERSION = '0.0.141'
 DESCRIPTION = 'Example implementation of gmp and C math.h functions'
 LONG_DESCRIPTION = 'Simple arithmetic functions from C and gmp'
 
@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     packages=['numer'],
     package_data={
-        'numer': ['gmp.dylib',  'lib.dylib']
+        'numer': ['gmp.dylib',  'lib.dylib', 'gmp.dll', 'lib.dll']
     },
     install_requires=[],
     keywords=['python', 'math', 'gmp', 'cmath'],
@@ -23,5 +23,6 @@ setup(
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
         "Operating System :: MacOS :: MacOS X",
+        "Operating System :: Microsoft :: Windows",
     ]
 )

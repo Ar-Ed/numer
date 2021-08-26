@@ -1,7 +1,13 @@
 import ctypes as c
 import os
+import sys
 
-_lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dylib"))
+
+if sys.platform.startswith('darwin'):
+    _lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dylib"))
+
+if sys.platform.startswith('win32') or sys.platform.startswith('cygwin'):
+    _lib = c.CDLL(os.path.join(os.path.dirname(__file__), "lib.dll"))
 
 _lib.fcos.argtypes = (c.c_double, c.c_char)
 _lib.fcos.restype = c.c_double
@@ -12,13 +18,13 @@ _lib.fsin.restype = c.c_double
 _lib.ftan.argtypes = (c.c_double, c.c_char)
 _lib.ftan.restype = c.c_double
 
-_lib.fatan.argtypes = (c.c_double)
+_lib.fatan.argtypes = (c.c_double,)
 _lib.fatan.restype = c.c_double
 
-_lib.facos.argtypes = (c.c_double)
+_lib.facos.argtypes = (c.c_double,)
 _lib.facos.restype = c.c_double
 
-_lib.fasin.argtypes = (c.c_double)
+_lib.fasin.argtypes = (c.c_double,)
 _lib.fasin.restype = c.c_double
 
 _lib.fcosh.argtypes = (c.c_double, c.c_char)
@@ -171,9 +177,9 @@ def log10(number: float) -> float:
 def ceil(number: float) -> float:
     '''Rounds the number up and returns the rounded value'''
 
-    if not (isinstance(number, (float,int))):
+    if not (isinstance(number, (float, int))):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
     return _lib.fceil(number)
 
@@ -181,29 +187,29 @@ def ceil(number: float) -> float:
 def ln(number: float) -> float:
     '''Returns the natural logarithm of the number'''
 
-    if not (isinstance(number, (float,int)) and number > 0):
+    if not (isinstance(number, (float, int)) and number > 0):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int and bigger than 0")
 
     return _lib.flog(number)
 
 
 def exp(number: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the number'th power of e'''
 
-    if not isinstance(number, (float,int)):
+    if not isinstance(number, (float, int)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
     return _lib.fexp(number)
 
 
 def floor(number: float) -> float:
-    '''Returns the cosine of the angle'''
+    '''Returns the closest integer such that it's less than the number'''
 
-    if not isinstance(number, (float,int)):
+    if not isinstance(number, (float, int)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
     return _lib.ffloor(number)
 
@@ -211,9 +217,9 @@ def floor(number: float) -> float:
 def abs(number: float) -> float:
     '''Returns the absolute value of the number'''
 
-    if not isinstance(number, (float,int)):
+    if not isinstance(number, (float, int)):
         raise ValueError(
-            "Angle has to be a float, radian has to be an boolean")
+            "number has to be a float or an int")
 
     return _lib.ffabs(number)
 
@@ -221,7 +227,7 @@ def abs(number: float) -> float:
 def sqrt(number: float) -> float:
     '''Returns the square root of the number'''
 
-    if not (isinstance(number, float) and number > 0):
+    if not (isinstance(number, (float, int)) and number >= 0):
         raise ValueError(
             "number has to be a float or an int")
 
@@ -231,7 +237,7 @@ def sqrt(number: float) -> float:
 def mod(num1: float, num2: float) -> float:
     '''Returns num1 modulo num2'''
 
-    if not (isinstance(num1, float) and isinstance(num2, float)):
+    if not (isinstance(num1, (float, int)) and isinstance(num2, (float, int))):
         raise ValueError(
             "num1 and num2 have to be floats or ints")
 
